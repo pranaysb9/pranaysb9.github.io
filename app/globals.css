@@ -1,0 +1,220 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   THEME PRESETS — background/surface/text shades only.
+   Switched at runtime via [data-theme] on <html>, set by ThemeSwitcher.tsx.
+   Values are "R G B" triplets (no commas) so Tailwind's rgb(var(--x) / a)
+   opacity syntax works. The accent colors (violet/amber/coral/teal) live in
+   tailwind.config.ts directly and are NOT part of this system on purpose —
+   only the neutral background palette is meant to be experimented with here.
+
+   12 presets, each a genuinely different hue direction (not near-duplicates
+   of each other) — cream, near-white, neutral gray, blue-gray, blue, orange,
+   pink, yellow, green, purple, dim dark gray, warm near-black.
+   ============================================================================ */
+:root,
+[data-theme="parchment"] {
+  --c-paper: 247 243 234;
+  --c-surface: 254 252 246;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 24 21 17;
+  --c-muted: 111 104 88;
+  --c-line: 231 220 196;
+}
+
+[data-theme="ivory"] {
+  --c-paper: 250 249 246;
+  --c-surface: 255 255 255;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 26 26 24;
+  --c-muted: 117 116 109;
+  --c-line: 232 230 222;
+}
+
+[data-theme="warm-gray"] {
+  --c-paper: 232 230 224;
+  --c-surface: 243 241 236;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 30 29 27;
+  --c-muted: 114 111 104;
+  --c-line: 216 213 204;
+}
+
+[data-theme="cool-slate"] {
+  --c-paper: 231 234 236;
+  --c-surface: 243 245 246;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 21 25 28;
+  --c-muted: 98 106 110;
+  --c-line: 203 211 214;
+}
+
+[data-theme="sky"] {
+  --c-paper: 227 238 245;
+  --c-surface: 241 248 252;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 16 32 43;
+  --c-muted: 89 115 127;
+  --c-line: 199 222 234;
+}
+
+[data-theme="terracotta"] {
+  --c-paper: 247 228 219;
+  --c-surface: 255 241 233;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 36 23 18;
+  --c-muted: 138 97 82;
+  --c-line: 235 196 177;
+}
+
+[data-theme="rose"] {
+  --c-paper: 247 225 234;
+  --c-surface: 255 240 246;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 43 22 32;
+  --c-muted: 140 93 113;
+  --c-line: 239 195 214;
+}
+
+[data-theme="mustard"] {
+  --c-paper: 242 232 206;
+  --c-surface: 251 246 231;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 36 29 11;
+  --c-muted: 138 118 56;
+  --c-line: 228 210 160;
+}
+
+[data-theme="sage"] {
+  --c-paper: 229 235 221;
+  --c-surface: 242 246 236;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 23 28 18;
+  --c-muted: 94 107 82;
+  --c-line: 207 219 190;
+}
+
+[data-theme="lavender"] {
+  --c-paper: 234 230 242;
+  --c-surface: 245 242 250;
+  --c-surface-hover: 255 255 255;
+  --c-ink: 27 23 38;
+  --c-muted: 112 106 133;
+  --c-line: 214 205 232;
+}
+
+[data-theme="charcoal"] {
+  --c-paper: 23 24 26;
+  --c-surface: 31 32 35;
+  --c-surface-hover: 39 40 45;
+  --c-ink: 237 237 238;
+  --c-muted: 154 156 161;
+  --c-line: 52 54 58;
+}
+
+[data-theme="midnight"] {
+  --c-paper: 21 18 13;
+  --c-surface: 30 26 20;
+  --c-surface-hover: 38 32 25;
+  --c-ink: 245 240 230;
+  --c-muted: 167 158 140;
+  --c-line: 51 44 34;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: theme("colors.paper");
+  color: theme("colors.ink");
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ---------- Focus visibility (accessibility floor) ---------- */
+:focus-visible {
+  outline: 2px solid theme("colors.accent");
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Reduced motion (accessibility floor) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Cursor-follow spotlight for cards ----------
+   Set on hover via onMouseMove in SpotlightCard.tsx, which writes
+   --spot-x / --spot-y (percentages) onto the element's style.
+*/
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(
+    380px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--spot-color, theme("colors.violet-soft")),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+/* ---------- Animated underline link ---------- */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease-out;
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Tabular numerals for stats/diffs ---------- */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Marquee track ---------- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
