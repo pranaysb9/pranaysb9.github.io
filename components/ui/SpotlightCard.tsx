@@ -7,17 +7,15 @@ import { cn } from "@/lib/utils";
 type Props = {
   children: ReactNode;
   className?: string;
-  /** Hex-with-alpha color for this card's hover glow, e.g. "#6D28D91A". Falls back to violet. */
-  glowColor?: string;
 };
 
 /**
- * Wraps a card with a low-opacity, colorway-tinted radial glow that follows
+ * Wraps a card with a low-opacity accent-tinted radial glow that follows
  * the cursor. The heavy lifting is CSS (see .spotlight-card in globals.css) —
- * this component only writes the cursor position + glow color into CSS
- * custom properties on mousemove, so there's no per-frame JS animation cost.
+ * this component only writes the cursor position into CSS custom
+ * properties on mousemove, so there's no per-frame JS animation cost.
  */
-export default function SpotlightCard({ children, className, glowColor }: Props) {
+export default function SpotlightCard({ children, className }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
@@ -28,7 +26,6 @@ export default function SpotlightCard({ children, className, glowColor }: Props)
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     el.style.setProperty("--spot-x", `${x}%`);
     el.style.setProperty("--spot-y", `${y}%`);
-    if (glowColor) el.style.setProperty("--spot-color", glowColor);
   }
 
   return (

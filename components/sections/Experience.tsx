@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { experience } from "@/data/content";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
@@ -12,67 +12,109 @@ export default function Experience() {
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 80%", "end 60%"],
+    offset: ["start 70%", "end 60%"],
   });
   const lineHeight = useSpring(scrollYProgress, { stiffness: 80, damping: 24 });
 
+  // Scroll-Spy for ribbon milestones
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-25% 0px -55% 0px",
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Extract the direct entry ID
+          const id = entry.target.id.replace("exp-block-", "");
+          setHighlightedId(id);
+        }
+      });
+    }, observerOptions);
+
+    experience.forEach((entry) => {
+      const el = document.getElementById(`exp-block-${entry.id}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      experience.forEach((entry) => {
+        const el = document.getElementById(`exp-block-${entry.id}`);
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
+
   function handleSelect(id: string) {
     setHighlightedId(id);
-    document.getElementById(`exp-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-    window.setTimeout(() => setHighlightedId((current) => (current === id ? null : current)), 1600);
+    document.getElementById(`exp-block-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   return (
-    <section id="experience" className="px-6 py-24 md:px-10">
-      <div className="mx-auto max-w-4xl text-center">
-        <RevealOnScroll>
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">
-            Professional Trajectory
-          </p>
-          <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">
-            Experience across AI research,{" "}
-            <span className="italic text-accent">infrastructure, and engineering.</span>
-          </h2>
-        </RevealOnScroll>
-      </div>
+    <section id="experience" className="px-6 py-24 md:px-12 scroll-mt-20">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-8">
+          {/* Grid Left Column: Section Header */}
+          <div className="md:col-span-4 md:sticky md:top-28 h-fit">
+            <RevealOnScroll>
+              <div className="font-mono text-[10px] uppercase tracking-widest text-accent font-bold mb-2">03 // Experience</div>
+              <h2 className="font-display text-4xl font-semibold tracking-tight text-ink md:text-5xl">
+                Professional <span className="italic font-bold text-accent">Trajectory</span>
+              </h2>
+              <p className="mt-6 text-sm leading-relaxed text-muted">
+                Experience across deep learning research, distributed AI systems architecture, and early-stage startup engineering.
+              </p>
+            </RevealOnScroll>
 
-      <div className="mx-auto mt-12 max-w-3xl">
-        <ExperienceRibbon entries={experience} onSelect={handleSelect} activeId={highlightedId} />
-      </div>
+            {/* Jump Navigation ribbon */}
+            <div className="mt-8 hidden md:block">
+              <p className="font-mono text-[9px] uppercase tracking-widest text-muted font-bold mb-3">Milestone Jump-nav</p>
+              <ExperienceRibbon entries={experience} onSelect={handleSelect} activeId={highlightedId} />
+            </div>
+          </div>
 
-      <div ref={containerRef} className="relative mx-auto max-w-3xl">
-        {/* Static track + animated progress line */}
-        <div className="absolute left-4 top-0 h-full w-px bg-line md:left-1/2" />
-        <motion.div
-          style={{ scaleY: lineHeight }}
-          className="absolute left-4 top-0 h-full w-px origin-top bg-accent md:left-1/2"
-        />
+          {/* Grid Right Column: Left-aligned Timeline */}
+          <div className="md:col-span-8">
+            {/* Jump nav visible only on mobile */}
+            <div className="block md:hidden mb-8">
+              <ExperienceRibbon entries={experience} onSelect={handleSelect} activeId={highlightedId} />
+            </div>
 
-        <div className="space-y-10">
-          {experience.map((entry, i) => {
-            const onLeft = i % 2 === 0; // matches md:odd:mr-auto below (CSS nth-child is 1-indexed)
-            return (
+            <div ref={containerRef} className="relative pl-6 md:pl-10">
+              {/* Vertical Progress Line */}
+              <div className="absolute left-1 md:left-2 top-2 h-[calc(100%-8px)] w-px bg-line" />
               <motion.div
-                key={entry.id}
-                id={`exp-${entry.id}`}
-                initial={{ opacity: 0, x: onLeft ? -32 : 32 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-                className="relative ml-10 scroll-mt-28 md:ml-0 md:w-[calc(50%-2rem)] md:odd:mr-auto md:even:ml-auto"
-              >
-                {/* Mobile timeline dot */}
-                <span className="absolute -left-[2.65rem] top-7 h-2.5 w-2.5 rounded-full border-2 border-accent bg-surface md:hidden" />
-                {/* Desktop connector stub, reaching from the card to the center line */}
-                <span
-                  className={`absolute top-7 hidden h-px w-8 bg-line md:block ${
-                    onLeft ? "-right-8" : "-left-8"
-                  }`}
-                />
-                <ExperienceCard entry={entry} highlighted={entry.id === highlightedId} />
-              </motion.div>
-            );
-          })}
+                style={{ scaleY: lineHeight }}
+                className="absolute left-1 md:left-2 top-2 h-[calc(100%-8px)] w-px origin-top bg-accent"
+              />
+
+              <div className="space-y-12">
+                {experience.map((entry, i) => (
+                  <motion.div
+                    key={entry.id}
+                    id={`exp-block-${entry.id}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.4, delay: i * 0.05, ease: "easeOut" }}
+                    className="relative scroll-mt-28"
+                  >
+                    {/* Timeline connector dot */}
+                    <span
+                      className={`absolute -left-[23px] md:-left-[39px] top-6 h-2 w-2 rounded-full border border-accent bg-surface transition-all duration-300 ${
+                        highlightedId === entry.id
+                          ? "bg-accent scale-125 ring-4 ring-accent-soft"
+                          : "bg-surface"
+                      }`}
+                    />
+                    <ExperienceCard entry={entry} highlighted={entry.id === highlightedId} />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

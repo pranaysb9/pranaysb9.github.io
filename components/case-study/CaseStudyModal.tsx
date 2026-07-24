@@ -4,18 +4,14 @@ import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ExternalLink, Lightbulb, ShieldAlert } from "lucide-react";
 import type { CaseStudy } from "@/types/caseStudy";
-import { colorways, type Colorway } from "@/lib/colorways";
 import ArchitectureDiagram from "@/components/case-study/ArchitectureDiagram";
 
 type Props = {
   caseStudy: CaseStudy | null;
-  colorway: Colorway;
   onClose: () => void;
 };
 
-export default function CaseStudyModal({ caseStudy, colorway, onClose }: Props) {
-  const c = colorways[colorway];
-
+export default function CaseStudyModal({ caseStudy, onClose }: Props) {
   // Close on Escape, lock body scroll while open.
   useEffect(() => {
     if (!caseStudy) return;
@@ -61,7 +57,7 @@ export default function CaseStudyModal({ caseStudy, colorway, onClose }: Props) 
 
             <div className="max-h-[85vh] overflow-y-auto p-8 md:p-12">
               {/* ---------- Hero ---------- */}
-              <p className={`font-mono text-xs uppercase tracking-widest ${c.caseStudyText}`}>
+              <p className="font-mono text-xs uppercase tracking-widest text-accent">
                 Case Study
               </p>
               <h2 className="mt-2 font-display text-3xl font-semibold text-ink md:text-4xl">
@@ -72,7 +68,9 @@ export default function CaseStudyModal({ caseStudy, colorway, onClose }: Props) 
               {caseStudy.liveUrl && (
                 <a
                   href={caseStudy.liveUrl}
-                  className={`mt-5 inline-flex items-center gap-2 rounded-full border ${c.borderIdle} px-5 py-2.5 text-sm font-medium ${c.tagText} transition-colors ${c.borderHover}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-medium text-accent transition-colors hover:border-accent"
                 >
                   {caseStudy.liveLabel ?? "View Live"} <ExternalLink size={14} />
                 </a>
@@ -120,7 +118,7 @@ export default function CaseStudyModal({ caseStudy, colorway, onClose }: Props) 
                   <ul className="mt-3 space-y-2 text-sm text-ink/85">
                     {caseStudy.problem.points.map((pt, i) => (
                       <li key={i} className="flex gap-2">
-                        <span className={c.tagText}>0{i + 1}</span>
+                        <span className="text-accent">0{i + 1}</span>
                         {pt}
                       </li>
                     ))}
@@ -135,16 +133,57 @@ export default function CaseStudyModal({ caseStudy, colorway, onClose }: Props) 
                   <ArchitectureDiagram
                     nodes={caseStudy.architecture.nodes}
                     edges={caseStudy.architecture.edges}
-                    accentText={c.iconText}
                   />
                 </div>
               </div>
+
+              {/* ---------- Workflows ---------- */}
+              {caseStudy.workflows && caseStudy.workflows.length > 0 && (
+                <div className="mt-12">
+                  <h3 className="font-display text-xl font-semibold text-ink">Automation Workflows</h3>
+                  <div className="mt-5 space-y-6">
+                    {caseStudy.workflows.map((wf) => (
+                      <div key={wf.title} className="rounded-xl border border-line bg-paper/30 p-5 md:p-6">
+                        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                          <h4 className="font-semibold text-ink">{wf.title}</h4>
+                          <span className="inline-flex w-fit rounded border border-line bg-surface px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-accent">
+                            Trigger: {wf.trigger}
+                          </span>
+                        </div>
+                        <div className="mt-6 w-full overflow-x-auto pb-6 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-line">
+                          <div className="flex w-max items-center px-1">
+                            {wf.steps.map((step, i) => (
+                              <div key={i} className="flex items-center">
+                                <div className="flex h-24 w-52 shrink-0 flex-col items-center justify-center rounded-xl border border-line bg-paper/80 px-4 py-3 text-center text-[13px] leading-snug text-ink shadow-sm">
+                                  {step}
+                                </div>
+                                {i < wf.steps.length - 1 && (
+                                  <div className="mx-3 shrink-0 text-muted/40">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                                    </svg>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="mt-2 border-t border-dashed border-line pt-4">
+                          <p className="font-mono text-xs text-muted">
+                            <span className="font-semibold text-ink/70">Result: </span> {wf.output}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* ---------- Decisions & Challenges ---------- */}
               <div className="mt-12 grid gap-8 md:grid-cols-2">
                 <div>
                   <h3 className="flex items-center gap-2 font-display text-xl font-semibold text-ink">
-                    <Lightbulb size={18} className={c.iconText} /> Engineering Decisions
+                    <Lightbulb size={18} className="text-accent" /> Engineering Decisions
                   </h3>
                   <div className="mt-4 space-y-5">
                     {caseStudy.decisions.map((d) => (
@@ -157,7 +196,7 @@ export default function CaseStudyModal({ caseStudy, colorway, onClose }: Props) 
                 </div>
                 <div>
                   <h3 className="flex items-center gap-2 font-display text-xl font-semibold text-ink">
-                    <ShieldAlert size={18} className={c.iconText} /> Challenges Overcome
+                    <ShieldAlert size={18} className="text-accent" /> Challenges Overcome
                   </h3>
                   <div className="mt-4 space-y-5">
                     {caseStudy.challenges.map((d) => (
@@ -177,7 +216,7 @@ export default function CaseStudyModal({ caseStudy, colorway, onClose }: Props) 
                   <div className="mt-4 space-y-4">
                     {caseStudy.techBreakdown.map((cat) => (
                       <div key={cat.category}>
-                        <p className={`font-mono text-xs uppercase tracking-wide ${c.tagText}`}>
+                        <p className="font-mono text-xs uppercase tracking-wide text-accent">
                           {cat.category}
                         </p>
                         <p className="mt-1 text-sm text-ink/85">{cat.items.join(" · ")}</p>
@@ -190,7 +229,7 @@ export default function CaseStudyModal({ caseStudy, colorway, onClose }: Props) 
                   <ul className="mt-4 space-y-2 text-sm text-ink/85">
                     {caseStudy.lessons.map((l, i) => (
                       <li key={i} className="flex gap-2">
-                        <span className={c.tagText}>·</span>
+                        <span className="text-accent">·</span>
                         {l}
                       </li>
                     ))}

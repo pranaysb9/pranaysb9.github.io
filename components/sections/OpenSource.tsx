@@ -1,93 +1,125 @@
+"use client";
+
+import { useState } from "react";
 import { GitPullRequest } from "lucide-react";
 import { openSource } from "@/data/content";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import CountUp from "@/components/ui/CountUp";
 
 export default function OpenSource() {
-  return (
-    <section id="open-source" className="px-6 py-24 md:px-10">
-      <div className="mx-auto max-w-6xl">
-        <RevealOnScroll>
-          <h2 className="font-display text-4xl text-ink md:text-5xl">
-            Improving the core infrastructure that{" "}
-            <span className="italic text-accent">powers production AI.</span>
-          </h2>
-        </RevealOnScroll>
+  const [showAll, setShowAll] = useState(false);
 
-        <div className="mt-16 space-y-16">
-          {openSource.map((contribution) => (
-            <RevealOnScroll key={contribution.id}>
-              <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
-                {/* Story side */}
-                <div>
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-display text-3xl text-line">
-                      {contribution.number}
-                    </span>
+  return (
+    <section id="open-source" className="px-6 py-24 md:px-12 scroll-mt-20">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-8">
+          {/* Grid Left Column: Section Header */}
+          <div className="md:col-span-4 md:sticky md:top-28 h-fit">
+            <RevealOnScroll>
+              <div className="font-mono text-[10px] uppercase tracking-widest text-accent font-bold mb-2">02 // Open Source</div>
+              <h2 className="font-display text-4xl font-semibold tracking-tight text-ink md:text-5xl">
+                Core <span className="italic font-bold text-accent">Infrastructure</span>
+              </h2>
+              <p className="mt-6 text-sm leading-relaxed text-muted">
+                Optimizing runtimes, correcting memory leaks, and building reliability in widely-used production frameworks.
+              </p>
+            </RevealOnScroll>
+          </div>
+
+          {/* Grid Right Column: Content */}
+          <div className="md:col-span-8 space-y-16">
+            {openSource.slice(0, showAll ? undefined : 4).map((contribution) => (
+              <RevealOnScroll key={contribution.id}>
+                <div className="grid gap-8 grid-cols-1 lg:grid-cols-[1.4fr_1fr]">
+                  {/* Story side */}
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-3">
+                      <span className="font-display text-2xl font-bold text-line">
+                        {contribution.number}
+                      </span>
+                      <a
+                        href={contribution.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link-underline font-mono text-xs uppercase tracking-wider font-semibold text-muted hover:text-ink"
+                      >
+                        {contribution.repo} ↗
+                      </a>
+                    </div>
+                    <h3 className="mt-3 font-display text-2xl font-semibold text-ink leading-snug">
+                      {contribution.title}
+                    </h3>
+
+                    <p className="mb-2 mt-6 font-mono text-[9px] uppercase tracking-widest text-muted font-bold">
+                      The Context
+                    </p>
+                    <blockquote className="border-l-2 border-line pl-4 font-display text-lg italic leading-snug text-ink/80">
+                      &ldquo;{contribution.context}&rdquo;
+                    </blockquote>
+
+                    <p className="mb-2 mt-6 font-mono text-[9px] uppercase tracking-widest text-muted font-bold">
+                      The Impact
+                    </p>
+                    <p className="text-sm leading-relaxed text-ink/85">{contribution.impact}</p>
+                  </div>
+
+                  {/* PR data card */}
+                  <div className="h-fit rounded-xl border border-line bg-surface p-5 shadow-sm">
+                    <p className="mb-3 font-mono text-[9px] uppercase tracking-widest text-muted font-bold">
+                      Pull Request Data
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 font-mono text-xs text-ink font-semibold">
+                        <GitPullRequest size={13} className="text-accent" />
+                        {contribution.prNumber}
+                      </span>
+                      <span className="rounded bg-emerald-50 border border-emerald-100 px-2 py-0.5 font-mono text-[9px] font-bold uppercase text-emerald-800">
+                        {contribution.status}
+                      </span>
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between border-t border-line pt-4 font-mono text-[11px] font-semibold tabular-nums">
+                      <span className="text-emerald-700">
+                        +<CountUp value={contribution.linesAdded} /> lines
+                      </span>
+                      <span className="text-accent">
+                        -<CountUp value={contribution.linesRemoved} /> lines
+                      </span>
+                    </div>
+
+                    {contribution.reviewerNote && (
+                      <p className="mt-4 rounded bg-paper/50 p-3 font-display text-xs italic text-muted border border-line/40">
+                        &ldquo;{contribution.reviewerNote}&rdquo;
+                      </p>
+                    )}
+
                     <a
-                      href={contribution.repoUrl}
-                      className="link-underline font-mono text-sm text-muted hover:text-ink"
+                      href={contribution.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-underline mt-4 inline-block font-mono text-[9px] font-bold uppercase tracking-wider text-accent"
                     >
-                      {contribution.repo} ↗
+                      View Source ↗
                     </a>
                   </div>
-                  <h3 className="mt-2 font-display text-3xl font-semibold text-ink">
-                    {contribution.title}
-                  </h3>
-
-                  <p className="mb-2 mt-8 font-mono text-xs uppercase tracking-wider text-muted">
-                    The Context
-                  </p>
-                  <blockquote className="font-display text-xl italic leading-snug text-ink/90">
-                    &ldquo;{contribution.context}&rdquo;
-                  </blockquote>
-
-                  <p className="mb-2 mt-6 font-mono text-xs uppercase tracking-wider text-muted">
-                    The Impact
-                  </p>
-                  <p className="text-ink/85">{contribution.impact}</p>
                 </div>
+              </RevealOnScroll>
+            ))}
 
-                {/* PR data card */}
-                <div className="h-fit rounded-xl2 border border-line bg-surface p-6">
-                  <p className="mb-4 font-mono text-xs uppercase tracking-wider text-muted">
-                    Pull Request Data
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center gap-2 font-mono text-sm text-ink">
-                      <GitPullRequest size={15} className="text-accent" />
-                      {contribution.prNumber}
-                    </span>
-                    <span className="rounded-full border border-line px-3 py-1 font-mono text-[11px] font-medium uppercase text-emerald-700">
-                      {contribution.status}
-                    </span>
-                  </div>
-
-                  <div className="mt-4 flex items-center justify-between border-t border-line pt-4 font-mono text-sm tabular-nums">
-                    <span className="text-emerald-700">
-                      +<CountUp value={contribution.linesAdded} /> lines added
-                    </span>
-                    <span className="text-accent">
-                      -<CountUp value={contribution.linesRemoved} /> removed
-                    </span>
-                  </div>
-
-                  {contribution.reviewerNote && (
-                    <p className="mt-4 rounded-lg bg-paper p-3 font-display text-sm italic text-muted">
-                      &ldquo;{contribution.reviewerNote}&rdquo;
-                    </p>
-                  )}
-
-                  <a
-                    href={contribution.sourceUrl}
-                    className="link-underline mt-4 inline-block font-mono text-xs uppercase tracking-wider text-ink"
+            {!showAll && openSource.length > 4 && (
+              <RevealOnScroll>
+                <div className="flex justify-start">
+                  <button
+                    onClick={() => setShowAll(true)}
+                    className="group flex items-center gap-2 rounded-full border border-line bg-surface px-6 py-2.5 font-mono text-xs font-semibold tracking-wider text-muted transition-all hover:border-ink hover:text-ink hover:bg-paper"
                   >
-                    View Source ↗
-                  </a>
+                    SHOW MORE
+                    <span className="transition-transform group-hover:translate-y-0.5">↓</span>
+                  </button>
                 </div>
-              </div>
-            </RevealOnScroll>
-          ))}
+              </RevealOnScroll>
+            )}
+          </div>
         </div>
       </div>
     </section>
