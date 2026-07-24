@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
-import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
-import ScrollProgressRing from "@/components/ui/ScrollProgressRing";
+import CommandPalette from "@/components/ui/CommandPalette";
 import "./globals.css";
 
 // Display serif — used for headlines only, with restraint. Fraunces has a
@@ -44,22 +43,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}>
-      <head>
-        {/* Applies any saved shade preset before first paint, so switching
-            themes and reloading doesn't flash the default theme first. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try {
-              var t = localStorage.getItem('portfolio-theme');
-              if (t) document.documentElement.setAttribute('data-theme', t);
-            } catch (e) {}`,
-          }}
-        />
-      </head>
       <body className="font-sans antialiased">
         {children}
-        <ThemeSwitcher />
-        <ScrollProgressRing />
+        <CommandPalette />
       </body>
     </html>
   );

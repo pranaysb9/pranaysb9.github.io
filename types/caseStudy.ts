@@ -33,6 +33,13 @@ export type TechCategory = {
   items: string[];
 };
 
+export type Workflow = {
+  title: string;
+  trigger: string;
+  steps: string[];
+  output: string;
+};
+
 export type CaseStudy = {
   id: string;
   title: string;
@@ -56,6 +63,8 @@ export type CaseStudy = {
 
   decisions: Decision[];
   challenges: Decision[];
+
+  workflows?: Workflow[];
 
   techBreakdown: TechCategory[];
   lessons: string[];

@@ -3,124 +3,20 @@
 @tailwind utilities;
 
 /* ============================================================================
-   THEME PRESETS — background/surface/text shades only.
-   Switched at runtime via [data-theme] on <html>, set by ThemeSwitcher.tsx.
+   NEUTRAL PALETTE — single fixed theme (no runtime switching).
    Values are "R G B" triplets (no commas) so Tailwind's rgb(var(--x) / a)
-   opacity syntax works. The accent colors (violet/amber/coral/teal) live in
-   tailwind.config.ts directly and are NOT part of this system on purpose —
-   only the neutral background palette is meant to be experimented with here.
-
-   12 presets, each a genuinely different hue direction (not near-duplicates
-   of each other) — cream, near-white, neutral gray, blue-gray, blue, orange,
-   pink, yellow, green, purple, dim dark gray, warm near-black.
+   opacity syntax works.
    ============================================================================ */
-:root,
-[data-theme="parchment"] {
-  --c-paper: 247 243 234;
-  --c-surface: 254 252 246;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 24 21 17;
-  --c-muted: 111 104 88;
-  --c-line: 231 220 196;
-}
-
-[data-theme="ivory"] {
+:root {
   --c-paper: 250 249 246;
   --c-surface: 255 255 255;
   --c-surface-hover: 255 255 255;
   --c-ink: 26 26 24;
-  --c-muted: 117 116 109;
+  --c-muted: 100 98 90;
   --c-line: 232 230 222;
-}
-
-[data-theme="warm-gray"] {
-  --c-paper: 232 230 224;
-  --c-surface: 243 241 236;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 30 29 27;
-  --c-muted: 114 111 104;
-  --c-line: 216 213 204;
-}
-
-[data-theme="cool-slate"] {
-  --c-paper: 231 234 236;
-  --c-surface: 243 245 246;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 21 25 28;
-  --c-muted: 98 106 110;
-  --c-line: 203 211 214;
-}
-
-[data-theme="sky"] {
-  --c-paper: 227 238 245;
-  --c-surface: 241 248 252;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 16 32 43;
-  --c-muted: 89 115 127;
-  --c-line: 199 222 234;
-}
-
-[data-theme="terracotta"] {
-  --c-paper: 247 228 219;
-  --c-surface: 255 241 233;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 36 23 18;
-  --c-muted: 138 97 82;
-  --c-line: 235 196 177;
-}
-
-[data-theme="rose"] {
-  --c-paper: 247 225 234;
-  --c-surface: 255 240 246;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 43 22 32;
-  --c-muted: 140 93 113;
-  --c-line: 239 195 214;
-}
-
-[data-theme="mustard"] {
-  --c-paper: 242 232 206;
-  --c-surface: 251 246 231;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 36 29 11;
-  --c-muted: 138 118 56;
-  --c-line: 228 210 160;
-}
-
-[data-theme="sage"] {
-  --c-paper: 229 235 221;
-  --c-surface: 242 246 236;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 23 28 18;
-  --c-muted: 94 107 82;
-  --c-line: 207 219 190;
-}
-
-[data-theme="lavender"] {
-  --c-paper: 234 230 242;
-  --c-surface: 245 242 250;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 27 23 38;
-  --c-muted: 112 106 133;
-  --c-line: 214 205 232;
-}
-
-[data-theme="charcoal"] {
-  --c-paper: 23 24 26;
-  --c-surface: 31 32 35;
-  --c-surface-hover: 39 40 45;
-  --c-ink: 237 237 238;
-  --c-muted: 154 156 161;
-  --c-line: 52 54 58;
-}
-
-[data-theme="midnight"] {
-  --c-paper: 21 18 13;
-  --c-surface: 30 26 20;
-  --c-surface-hover: 38 32 25;
-  --c-ink: 245 240 230;
-  --c-muted: 167 158 140;
-  --c-line: 51 44 34;
+  --c-accent: 37 99 235; /* Refined Midnight Indigo #2563EB */
+  --c-accent-dark: 29 78 216;
+  --c-accent-soft: 37 99 235 / 0.1;
 }
 
 html {
@@ -135,7 +31,7 @@ body {
 
 /* ---------- Focus visibility (accessibility floor) ---------- */
 :focus-visible {
-  outline: 2px solid theme("colors.accent");
+  outline: 2px solid rgb(var(--c-accent));
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -152,10 +48,7 @@ body {
   }
 }
 
-/* ---------- Cursor-follow spotlight for cards ----------
-   Set on hover via onMouseMove in SpotlightCard.tsx, which writes
-   --spot-x / --spot-y (percentages) onto the element's style.
-*/
+/* ---------- Cursor-follow spotlight (Projects cards only) ---------- */
 .spotlight-card {
   position: relative;
   overflow: hidden;
@@ -167,17 +60,19 @@ body {
   inset: 0;
   z-index: 0;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.2s ease-out;
   background: radial-gradient(
     380px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    var(--spot-color, theme("colors.violet-soft")),
+    rgb(var(--c-accent) / 0.08),
     transparent 70%
   );
   pointer-events: none;
 }
 
-.spotlight-card:hover::before {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .spotlight-card:hover::before {
+    opacity: 1;
+  }
 }
 
 /* ---------- Animated underline link ---------- */
@@ -196,7 +91,7 @@ body {
   background-color: currentColor;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.25s ease-out;
+  transition: transform 0.2s ease-out;
 }
 
 .link-underline:hover::after {
@@ -208,13 +103,71 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Marquee track ---------- */
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 32s linear infinite;
+/* ---------- Project Card Hover Effects ---------- */
+.project-card-group:hover .project-card-sibling {
+  opacity: 0.45;
+  filter: grayscale(20%);
 }
 
-.marquee-track:hover {
-  animation-play-state: paused;
+.project-card-sibling {
+  transition: opacity 0.25s ease-out, filter 0.25s ease-out, transform 0.25s ease-out, border-color 0.25s ease-out;
 }
+
+.project-card-sibling:hover {
+  opacity: 1 !important;
+  filter: none !important;
+  border-color: rgb(var(--c-accent)) !important;
+}
+
+/* ---------- Developer Mode (Blueprint Easter Egg) ---------- */
+.developer-mode {
+  --c-paper: 11 37 69; /* Blueprint dark blue */
+  --c-surface: 15 48 88;
+  --c-surface-hover: 20 60 108;
+  --c-ink: 230 240 250; /* Blueprint lines */
+  --c-muted: 130 165 205;
+  --c-line: 32 80 128;
+  --c-accent: 56 189 248; /* Sky blue */
+}
+
+.developer-mode body {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.developer-mode * {
+  border-radius: 0px !important; /* Sharp engineering edges */
+}
+
+.developer-mode section {
+  position: relative;
+  outline: 1px dashed rgba(56, 189, 248, 0.2) !important;
+  outline-offset: -1px;
+}
+
+.developer-mode section::before {
+  content: "<section id=\"" attr(id) "\">";
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  color: rgba(56, 189, 248, 0.5);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.developer-mode section::after {
+  content: "</section>";
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  color: rgba(56, 189, 248, 0.5);
+  pointer-events: none;
+  z-index: 20;
+}
+

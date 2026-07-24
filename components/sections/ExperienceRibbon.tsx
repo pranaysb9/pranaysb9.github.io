@@ -21,10 +21,10 @@ export default function ExperienceRibbon({ entries, onSelect, activeId }: Props)
         <button
           key={entry.id}
           onClick={() => onSelect(entry.id)}
-          className={`shrink-0 snap-start rounded-full border px-4 py-2 text-left transition-colors ${
+          className={`shrink-0 snap-start rounded-full border px-4 py-2 text-left transition-colors duration-200 ${
             activeId === entry.id
-              ? "border-violet bg-violet/10"
-              : "border-line bg-surface hover:border-violet/40"
+              ? "border-accent bg-accent-soft"
+              : "border-line bg-surface hover:border-accent/40"
           }`}
         >
           <p className="font-mono text-[10px] uppercase tracking-wider text-muted">

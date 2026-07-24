@@ -4,7 +4,6 @@ import type { ArchitectureNode, ArchitectureEdge } from "@/types/caseStudy";
 type Props = {
   nodes: ArchitectureNode[];
   edges: ArchitectureEdge[];
-  accentText: string; // e.g. "text-teal-dark" — matches the project's colorway
 };
 
 /**
@@ -14,7 +13,7 @@ type Props = {
  * simplification — good enough to visualize a pipeline shape without doing
  * per-node SVG coordinate math, and it wraps naturally on mobile.
  */
-export default function ArchitectureDiagram({ nodes, edges, accentText }: Props) {
+export default function ArchitectureDiagram({ nodes, edges }: Props) {
   const levels = new Map<string, number>();
   const hasIncoming = new Set(edges.map((e) => e.to));
   const roots = nodes.filter((n) => !hasIncoming.has(n.id));
@@ -63,7 +62,7 @@ export default function ArchitectureDiagram({ nodes, edges, accentText }: Props)
           {i < columns.length - 1 && (
             <ArrowRight
               size={20}
-              className={`shrink-0 rotate-90 md:rotate-0 ${accentText}`}
+              className="shrink-0 rotate-90 text-muted md:rotate-0"
             />
           )}
         </div>

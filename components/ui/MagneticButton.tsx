@@ -48,8 +48,8 @@ export default function MagneticButton({
 
   const motionProps = {
     animate: pos,
-    whileTap: { scale: 0.96 },
-    transition: { type: "spring" as const, stiffness: 150, damping: 12, mass: 0.3 },
+    whileTap: { scale: 0.97 },
+    transition: { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.4 },
     onMouseMove: handleMouseMove,
     onMouseLeave: handleMouseLeave,
     className: styles,
