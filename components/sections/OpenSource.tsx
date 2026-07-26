@@ -5,6 +5,7 @@ import { GitPullRequest } from "lucide-react";
 import { openSource } from "@/data/content";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import CountUp from "@/components/ui/CountUp";
+import OrgLogo, { getOrgDisplayName } from "@/components/ui/OrgLogo";
 
 export default function OpenSource() {
   const [showAll, setShowAll] = useState(false);
@@ -28,12 +29,14 @@ export default function OpenSource() {
 
           {/* Grid Right Column: Content */}
           <div className="md:col-span-8 space-y-16">
-            {openSource.slice(0, showAll ? undefined : 4).map((contribution) => (
+            {openSource.slice(0, showAll ? undefined : 4).map((contribution) => {
+              const [org, repoName] = contribution.repo.split("/");
+              return (
               <RevealOnScroll key={contribution.id}>
                 <div className="grid gap-8 grid-cols-1 lg:grid-cols-[1.4fr_1fr]">
                   {/* Story side */}
                   <div className="min-w-0">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <span className="font-display text-2xl font-bold text-line">
                         {contribution.number}
                       </span>
@@ -41,9 +44,17 @@ export default function OpenSource() {
                         href={contribution.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="link-underline font-mono text-xs uppercase tracking-wider font-semibold text-muted hover:text-ink"
+                        className="group flex items-center gap-3"
                       >
-                        {contribution.repo} ↗
+                        <OrgLogo org={org} size={36} className="shrink-0" />
+                        <span>
+                          <span className="block font-display text-xl font-bold text-ink leading-none group-hover:text-accent transition-colors">
+                            {getOrgDisplayName(org)}
+                          </span>
+                          <span className="link-underline mt-1 block font-mono text-[10px] uppercase tracking-wider font-semibold text-muted group-hover:text-ink">
+                            {repoName} ↗
+                          </span>
+                        </span>
                       </a>
                     </div>
                     <h3 className="mt-3 font-display text-2xl font-semibold text-ink leading-snug">
@@ -104,7 +115,8 @@ export default function OpenSource() {
                   </div>
                 </div>
               </RevealOnScroll>
-            ))}
+              );
+            })}
 
             {!showAll && openSource.length > 4 && (
               <RevealOnScroll>
