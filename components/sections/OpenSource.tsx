@@ -36,7 +36,7 @@ export default function OpenSource() {
                 <div className="grid gap-8 grid-cols-1 lg:grid-cols-[1.4fr_1fr]">
                   {/* Story side */}
                   <div className="min-w-0">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <span className="font-display text-2xl font-bold text-line">
                         {contribution.number}
                       </span>
@@ -44,17 +44,9 @@ export default function OpenSource() {
                         href={contribution.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center gap-3"
+                        className="link-underline font-mono text-xs uppercase tracking-wider font-semibold text-muted hover:text-ink"
                       >
-                        <OrgLogo org={org} size={36} className="shrink-0" />
-                        <span>
-                          <span className="block font-display text-xl font-bold text-ink leading-none group-hover:text-accent transition-colors">
-                            {getOrgDisplayName(org)}
-                          </span>
-                          <span className="link-underline mt-1 block font-mono text-[10px] uppercase tracking-wider font-semibold text-muted group-hover:text-ink">
-                            {repoName} ↗
-                          </span>
-                        </span>
+                        {contribution.repo} ↗
                       </a>
                     </div>
                     <h3 className="mt-3 font-display text-2xl font-semibold text-ink leading-snug">
@@ -76,7 +68,24 @@ export default function OpenSource() {
 
                   {/* PR data card */}
                   <div className="h-fit rounded-xl border border-line bg-surface p-5 shadow-sm">
-                    <p className="mb-3 font-mono text-[9px] uppercase tracking-widest text-muted font-bold">
+                    <a
+                      href={contribution.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-3"
+                    >
+                      <OrgLogo org={org} size={40} className="shrink-0" />
+                      <span className="min-w-0">
+                        <span className="block truncate font-display text-xl font-bold text-ink leading-none group-hover:text-accent transition-colors">
+                          {getOrgDisplayName(org)}
+                        </span>
+                        <span className="link-underline mt-1 block truncate font-mono text-[10px] uppercase tracking-wider font-semibold text-muted group-hover:text-ink">
+                          {repoName} ↗
+                        </span>
+                      </span>
+                    </a>
+
+                    <p className="mb-3 mt-5 border-t border-line pt-4 font-mono text-[9px] uppercase tracking-widest text-muted font-bold">
                       Pull Request Data
                     </p>
                     <div className="flex items-center justify-between">
