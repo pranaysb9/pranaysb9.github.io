@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FolderGit2, GitBranch, Briefcase, BookOpen, Award, Menu, X, Search } from "lucide-react";
+import { FolderGit2, GitBranch, Briefcase, Lightbulb, Award, Menu, X, Search } from "lucide-react";
 import { profile } from "@/data/content";
 import { cn } from "@/lib/utils";
 
@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { label: "Projects", href: "#projects", icon: FolderGit2 },
   { label: "Open Source", href: "#open-source", icon: GitBranch },
   { label: "Experience", href: "#experience", icon: Briefcase },
-  { label: "Reading", href: "#reading", icon: BookOpen },
+  { label: "Notes", href: "#notes", icon: Lightbulb },
   { label: "Achievements", href: "#achievements", icon: Award },
 ];
 
@@ -43,7 +43,7 @@ export default function Navbar() {
       });
     }, observerOptions);
 
-    const sections = ["projects", "open-source", "experience", "reading", "achievements"];
+    const sections = ["projects", "open-source", "experience", "notes", "achievements"];
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);

@@ -8,7 +8,7 @@ import {
   FolderGit2,
   GitBranch,
   Briefcase,
-  BookOpen,
+  Lightbulb,
   Award,
   Github,
   Linkedin,
@@ -61,7 +61,7 @@ export default function CommandPalette() {
       { id: "nav-projects", group: "Navigate", label: "Projects", icon: FolderGit2, run: () => goTo("#projects") },
       { id: "nav-oss", group: "Navigate", label: "Open Source", icon: GitBranch, run: () => goTo("#open-source") },
       { id: "nav-exp", group: "Navigate", label: "Experience", icon: Briefcase, run: () => goTo("#experience") },
-      { id: "nav-reading", group: "Navigate", label: "Reading Log", icon: BookOpen, run: () => goTo("#reading") },
+      { id: "nav-notes", group: "Navigate", label: "Engineering Notes", icon: Lightbulb, run: () => goTo("#notes") },
       { id: "nav-achievements", group: "Navigate", label: "Achievements", icon: Award, run: () => goTo("#achievements") },
     ];
 

@@ -325,25 +325,53 @@ export const recognition: RecognitionEntry[] = [
 export const philosophyQuote =
   "A one or two sentence statement of how you think about building software.";
 
-export type ReadingLogEntry = {
+export type EngineeringNote = {
   id: string;
-  type: "book" | "article" | "paper" | "video" | "note";
-  status: "finished" | "reading" | "want-to-read";
-  title: string;
-  link?: string;
+  title: string; // the lesson itself, as a headline
+  org?: "NVIDIA" | "roboflow" | "open-telemetry"; // renders the real org logo when set
   source: string;
-  takeaway?: string;
-  date?: string;
+  link: string;
+  takeaway: string;
+  date: string;
 };
 
-export const readingLog: ReadingLogEntry[] = [
+export const engineeringNotes: EngineeringNote[] = [
   {
-    id: "reading-1",
-    type: "book",
-    status: "reading",
-    title: "Example Book",
-    source: "Author Name",
-    takeaway: "An interesting takeaway.",
-    date: "2024",
+    id: "note-lru-cache",
+    title: "WeakKeyDictionary beats lru_cache for GC-safe caching",
+    org: "NVIDIA",
+    source: "NVIDIA/NeMo-Agent-Toolkit",
+    link: "https://github.com/NVIDIA/NeMo-Agent-Toolkit/pull/2118",
+    takeaway:
+      "Bare @lru_cache on static methods doesn't leak in the traditional sense, but it pins the 128 most-recently-seen dynamic classes in memory indefinitely — and linters that catch instance-method leaks don't flag static methods. A module-level WeakKeyDictionary keeps the caching benefit while letting the GC reclaim classes that are no longer referenced.",
+    date: "Jul 2026",
+  },
+  {
+    id: "note-dict-immutability",
+    title: "Subclassing dict doesn't get you real immutability",
+    org: "open-telemetry",
+    source: "open-telemetry/opentelemetry-python",
+    link: "https://github.com/open-telemetry/opentelemetry-python/pull/5399",
+    takeaway:
+      "Overriding __setitem__ blocks direct assignment, but CPython's C-level dict methods — update, pop, clear — bypass Python's method overrides entirely and mutate in place anyway. Real immutability means explicitly overriding every mutating method, not just the obvious one.",
+    date: "Jul 2026",
+  },
+  {
+    id: "note-agent-separation",
+    title: "Self-correcting agents can't grade their own work",
+    source: "API Forge AI — Agentic SDK Generation Platform",
+    link: "https://github.com/pranaysb/API-Forge-AI",
+    takeaway:
+      "Early versions had one agent generate and fix its own SDK output — correction quality was inconsistent, because the model that made a mistake usually couldn't see it as a mistake. Splitting the pipeline into distinct Planner, Validator, Diagnoser, Coder, and Executor agents put a fresh evaluation pass between generation and correction, so errors got caught instead of rationalized away.",
+    date: "2025",
+  },
+  {
+    id: "note-lexical-vs-semantic",
+    title: "Lexical accuracy isn't semantic accuracy",
+    source: "Autonomous Driving VQA — Research at IIT Hyderabad",
+    link: "https://huggingface.co/spaces/pranaysb/autonomous-driving-vqa",
+    takeaway:
+      "Fine-tuning BLIP on BDD100K driving scenes hit 96% lexical accuracy but only 83.47% true BERTScore — the model was matching surface tokens, not meaning. It reframed evaluation for the rest of the project: exact-match metrics overstate correctness on open-ended VQA, and semantic similarity scoring is the one that actually matters.",
+    date: "2025–26",
   },
 ];

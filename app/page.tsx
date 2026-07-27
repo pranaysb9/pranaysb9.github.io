@@ -5,7 +5,7 @@ import Projects from "@/components/sections/Projects";
 import OpenSource from "@/components/sections/OpenSource";
 import Experience from "@/components/sections/Experience";
 import OtherExperiences from "@/components/sections/OtherExperiences";
-import ReadingLog from "@/components/sections/ReadingLog";
+import EngineeringNotes from "@/components/sections/EngineeringNotes";
 import Achievements from "@/components/sections/Achievements";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
       <OpenSource />
       <Experience />
       <OtherExperiences />
-      <ReadingLog />
+      <EngineeringNotes />
       <Achievements />
       <Footer />
     </main>
