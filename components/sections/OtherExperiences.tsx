@@ -1,11 +1,16 @@
-import { TrendingUp, Cpu, Database, GraduationCap, Users } from "lucide-react";
+import { TrendingUp, Database, GraduationCap, Users } from "lucide-react";
 import { otherExperiences } from "@/data/content";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
+import OrgLogo from "@/components/ui/OrgLogo";
+
+function isGoogleDeveloperGroups(org: string) {
+  const o = org.toLowerCase();
+  return o.includes("google developer") || o.includes("gdg");
+}
 
 function getRoleIcon(org: string) {
   const o = org.toLowerCase();
   if (o.includes("tech meet") || o.includes("aegis")) return TrendingUp;
-  if (o.includes("google developer") || o.includes("gdg")) return Cpu;
   if (o.includes("data science") || o.includes("club")) return Database;
   if (o.includes("mentor") || o.includes("student mentor")) return GraduationCap;
   return Users;
@@ -33,13 +38,18 @@ export default function OtherExperiences() {
           <div className="md:col-span-8">
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
               {otherExperiences.map((item, i) => {
+                const isGDG = isGoogleDeveloperGroups(item.org);
                 const Icon = getRoleIcon(item.org);
                 return (
                   <RevealOnScroll key={item.role + item.org} delay={i * 0.05}>
                     <div className="flex h-full flex-col gap-4 rounded-xl border border-line bg-surface p-6 shadow-sm hover:border-accent/40 transition-all duration-300">
                       <div className="flex items-center gap-4">
                         <div className="shrink-0 rounded-full border border-line bg-paper p-2.5">
-                          <Icon size={16} className="text-accent" aria-hidden />
+                          {isGDG ? (
+                            <OrgLogo org="google" size={16} />
+                          ) : (
+                            <Icon size={16} className="text-accent" aria-hidden />
+                          )}
                         </div>
                         <div className="min-w-0">
                           <p className="font-display text-lg font-bold text-ink truncate">
