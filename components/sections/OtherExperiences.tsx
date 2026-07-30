@@ -1,19 +1,21 @@
-import { TrendingUp, Database, GraduationCap, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { otherExperiences } from "@/data/content";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import OrgLogo from "@/components/ui/OrgLogo";
 
+// Real org logomarks, fetched from each org's own public LinkedIn page and
+// hosted locally rather than hotlinked to LinkedIn's CDN.
+function getOrgLogoSrc(org: string): string | null {
+  const o = org.toLowerCase();
+  if (o.includes("tech meet") || o.includes("aegis")) return "/logos/inter-iit-tech-meet.jpeg";
+  if (o.includes("data science")) return "/logos/dsai-club-iit-bhilai.jpeg";
+  if (o === "iit bhilai") return "/logos/iit-bhilai.jpeg";
+  return null;
+}
+
 function isGoogleDeveloperGroups(org: string) {
   const o = org.toLowerCase();
   return o.includes("google developer") || o.includes("gdg");
-}
-
-function getRoleIcon(org: string) {
-  const o = org.toLowerCase();
-  if (o.includes("tech meet") || o.includes("aegis")) return TrendingUp;
-  if (o.includes("data science") || o.includes("club")) return Database;
-  if (o.includes("mentor") || o.includes("student mentor")) return GraduationCap;
-  return Users;
 }
 
 export default function OtherExperiences() {
@@ -39,16 +41,18 @@ export default function OtherExperiences() {
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
               {otherExperiences.map((item, i) => {
                 const isGDG = isGoogleDeveloperGroups(item.org);
-                const Icon = getRoleIcon(item.org);
+                const logoSrc = isGDG ? null : getOrgLogoSrc(item.org);
                 return (
                   <RevealOnScroll key={item.role + item.org} delay={i * 0.05}>
                     <div className="flex h-full flex-col gap-4 rounded-xl border border-line bg-surface p-6 shadow-sm hover:border-accent/40 transition-all duration-300">
                       <div className="flex items-center gap-4">
-                        <div className="shrink-0 rounded-full border border-line bg-paper p-2.5">
+                        <div className="shrink-0 overflow-hidden rounded-full border border-line bg-paper p-2.5">
                           {isGDG ? (
                             <OrgLogo org="google" size={16} />
+                          ) : logoSrc ? (
+                            <img src={logoSrc} alt="" className="h-4 w-4 rounded-sm object-contain" />
                           ) : (
-                            <Icon size={16} className="text-accent" aria-hidden />
+                            <Users size={16} className="text-accent" aria-hidden />
                           )}
                         </div>
                         <div className="min-w-0">
