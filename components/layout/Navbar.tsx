@@ -79,9 +79,9 @@ export default function Navbar() {
         <a
           href="#top"
           onClick={() => handleNavClick("#top")}
-          className="font-display text-xl font-bold tracking-tight text-ink transition-transform hover:scale-105"
+          className="font-display text-xl font-bold italic tracking-tight text-ink transition-transform hover:scale-105"
         >
-          {profile.initials}
+          {profile.name.split(" ")[0]}
         </a>
 
         {/* Desktop Navigation */}

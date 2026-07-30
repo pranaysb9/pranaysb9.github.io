@@ -5,21 +5,20 @@
 // ============================================================================
 
 export const profile = {
-  name: "Your Name",
-  initials: "YN",
-  location: "City, Country",
+  name: "Pranay S B",
+  location: "Bengaluru, India",
   availability: "AVAILABLE", // or "OPEN TO WORK", "BUILDING", etc.
   heroLine1: "Building reliable",
   heroEmphasis: "AI infrastructure", // rendered in italic accent color
   heroLine2: "for production systems.",
-  bio: "One or two sentences about what you do and how you think about it.",
+  bio: "AI/ML engineer building vision-sensing systems, multi-agent platforms, and production infrastructure — currently leading Optisense AI and contributing fixes upstream to NVIDIA and OpenTelemetry.",
   statusCommand: "$ status --current active", // small monospace personality line
   heroTags: ["Builder", "Developer", "Researcher"],
   socials: {
-    github: "https://github.com/yourhandle",
-    linkedin: "https://linkedin.com/in/yourhandle",
-    email: "mailto:you@example.com",
-    resume: "/resume.pdf",
+    github: "https://github.com/pranaysb",
+    linkedin: "https://linkedin.com/in/pranaysb",
+    email: "mailto:pranaysb2006@gmail.com",
+    resume: "/S_B_Pranay_Resume.pdf",
   },
 };
 
@@ -323,7 +322,7 @@ export const recognition: RecognitionEntry[] = [
 ];
 
 export const philosophyQuote =
-  "A one or two sentence statement of how you think about building software.";
+  "Correctness usually hides in the edge case nobody guarded against — I'd rather add the epsilon check or the second validator now than debug a silent failure in production later.";
 
 export type EngineeringNote = {
   id: string;

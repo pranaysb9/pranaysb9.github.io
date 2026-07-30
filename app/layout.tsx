@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
 import CommandPalette from "@/components/ui/CommandPalette";
+import { profile } from "@/data/content";
 import "./globals.css";
 
 // Display serif — used for headlines only, with restraint. Fraunces has a
@@ -31,9 +32,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name — AI Engineer & Builder",
-  description:
-    "Building reliable AI infrastructure for production systems.",
+  title: `${profile.name} — AI Engineer & Builder`,
+  description: profile.bio,
 };
 
 export default function RootLayout({
