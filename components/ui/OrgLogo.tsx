@@ -62,11 +62,18 @@ const ORG_LOGOS: Record<string, (props: MarkProps) => JSX.Element> = {
   google: GoogleSvg,
 };
 
+// Orgs with no vector mark in any open icon library — real logo image
+// fetched from the org's own public LinkedIn page, hosted locally.
+const ORG_IMAGES: Record<string, string> = {
+  voxel51: "/logos/voxel51.jpeg",
+};
+
 const ORG_DISPLAY_NAMES: Record<string, string> = {
   NVIDIA: "NVIDIA",
   roboflow: "Roboflow",
   "open-telemetry": "OpenTelemetry",
   google: "Google",
+  voxel51: "Voxel51",
 };
 
 export function getOrgDisplayName(org: string) {
@@ -77,6 +84,21 @@ type Props = MarkProps & { org: string };
 
 export default function OrgLogo({ org, size = 24, className }: Props) {
   const Mark = ORG_LOGOS[org];
-  if (!Mark) return null;
-  return <Mark size={size} className={className} />;
+  if (Mark) return <Mark size={size} className={className} />;
+
+  const imageSrc = ORG_IMAGES[org];
+  if (imageSrc) {
+    return (
+      <img
+        src={imageSrc}
+        alt={getOrgDisplayName(org)}
+        width={size}
+        height={size}
+        className={className}
+        style={{ width: size, height: size, borderRadius: "9999px", objectFit: "cover" }}
+      />
+    );
+  }
+
+  return null;
 }

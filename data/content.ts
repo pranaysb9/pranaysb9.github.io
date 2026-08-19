@@ -160,6 +160,20 @@ export const openSource: OpenSourceContribution[] = [
   {
     id: "oss-2",
     number: "02",
+    repo: "voxel51/fiftyone",
+    repoUrl: "https://github.com/voxel51/fiftyone",
+    title: "Include visible bbox and visibility ratio in Cityscapes person annotations",
+    context: "The Cityscapes CityPersons bbox annotations include a visible (non-occluded) region and instance ID alongside the full bbox, but FiftyOne's parser only ever loaded the full bounding box, silently dropping the rest of the schema.",
+    impact: "Verified the annotation schema against the authoritative cityscapesScripts parser, then extended the loader to also surface the visible-region bbox, its visibility ratio, and the raw instance ID when present — with synthetic test fixtures covering the with/without-visibility-data cases.",
+    prNumber: "#8163",
+    status: "MERGED",
+    linesAdded: 105,
+    linesRemoved: 1,
+    sourceUrl: "https://github.com/voxel51/fiftyone/pull/8163",
+  },
+  {
+    id: "oss-3",
+    number: "03",
     repo: "roboflow/trackers",
     repoUrl: "https://github.com/roboflow/trackers",
     title: "fix(cmc): prevent cv2.resize crash on tiny downscaled images",
@@ -172,8 +186,22 @@ export const openSource: OpenSourceContribution[] = [
     sourceUrl: "https://github.com/roboflow/trackers/pull/488",
   },
   {
-    id: "oss-3",
-    number: "03",
+    id: "oss-4",
+    number: "04",
+    repo: "voxel51/fiftyone",
+    repoUrl: "https://github.com/voxel51/fiftyone",
+    title: "Warn 'pk' as an invalid field name",
+    context: "MongoEngine treats pk as a property alias for a document's id field, but FiftyOne only guarded against a field literally named id — creating a field named pk succeeded silently and then shadowed MongoEngine's own identity alias underneath it.",
+    impact: "Added pk to the reserved-name checks in the single validation gate already shared by every field-creation and rename path, following the existing pattern used for the frames/groups reserved keywords, with regression tests reproducing the original silent-corruption bug.",
+    prNumber: "#8145",
+    status: "MERGED",
+    linesAdded: 79,
+    linesRemoved: 1,
+    sourceUrl: "https://github.com/voxel51/fiftyone/pull/8145",
+  },
+  {
+    id: "oss-5",
+    number: "05",
     repo: "NVIDIA/NeMo-Agent-Toolkit",
     repoUrl: "https://github.com/NVIDIA/NeMo-Agent-Toolkit",
     title: "fix memory leak lru cache",
@@ -186,8 +214,8 @@ export const openSource: OpenSourceContribution[] = [
     sourceUrl: "https://github.com/NVIDIA/NeMo-Agent-Toolkit/pull/2105",
   },
   {
-    id: "oss-4",
-    number: "04",
+    id: "oss-6",
+    number: "06",
     repo: "NVIDIA/NeMo-Agent-Toolkit",
     repoUrl: "https://github.com/NVIDIA/NeMo-Agent-Toolkit",
     title: "fix(core): resolve lru_cache memory retention in DiscoveryMetadata",
@@ -200,8 +228,8 @@ export const openSource: OpenSourceContribution[] = [
     sourceUrl: "https://github.com/NVIDIA/NeMo-Agent-Toolkit/pull/2118",
   },
   {
-    id: "oss-5",
-    number: "05",
+    id: "oss-7",
+    number: "07",
     repo: "open-telemetry/opentelemetry-python",
     repoUrl: "https://github.com/open-telemetry/opentelemetry-python",
     title: "Fix Context in-place mutability bypass via inherited dict methods",
@@ -214,8 +242,8 @@ export const openSource: OpenSourceContribution[] = [
     sourceUrl: "https://github.com/open-telemetry/opentelemetry-python/pull/5399",
   },
   {
-    id: "oss-6",
-    number: "06",
+    id: "oss-8",
+    number: "08",
     repo: "roboflow/trackers",
     repoUrl: "https://github.com/roboflow/trackers",
     title: "fix: prevent zero division in xcycsr_to_xyxy converter",
@@ -301,12 +329,19 @@ export type RecognitionEntry = {
   place: string;
   event: string;
   description?: string;
+  link?: string;
 };
 
 export const recognition: RecognitionEntry[] = [
-  { 
-    place: "3rd Place", 
-    event: "AI Hackathon (Pathway)", 
+  {
+    place: "1st Place",
+    event: "Build with AI Durg — Track 1 (Google DeepMind)",
+    description: "Built Vani, a voice-first AI assistant that helps rural users access government scheme information without needing to read or type.",
+    link: "https://www.kaggle.com/competitions/aidurg-gemma-hackathon/writeups/vani-voice-first-ai-assistant-for-rural-governme",
+  },
+  {
+    place: "3rd Place",
+    event: "AI Hackathon (Pathway)",
     description: "Architected a real-time financial analytics streaming platform.",
   },
   { 

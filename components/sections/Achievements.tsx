@@ -1,4 +1,4 @@
-import { Trophy, Smartphone, Rocket, Award, Activity } from "lucide-react";
+import { Trophy, Smartphone, Rocket, Award, ArrowUpRight } from "lucide-react";
 import { otherExperiences, recognition, experience, openSource } from "@/data/content";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import CountUp from "@/components/ui/CountUp";
@@ -12,7 +12,7 @@ const STATS = [
 
 function getRecognitionIcon(event: string) {
   const e = event.toLowerCase();
-  if (e.includes("hackathon") || e.includes("pathway")) return Trophy;
+  if (e.includes("hackathon") || e.includes("pathway") || e.includes("build with ai") || e.includes("deepmind")) return Trophy;
   if (e.includes("techsprint") || e.includes("gdg")) return Smartphone;
   if (e.includes("genesis") || e.includes("meity")) return Rocket;
   return Award;
@@ -69,12 +69,23 @@ export default function Achievements() {
                           <div className="shrink-0 rounded-full border border-line bg-paper p-2.5">
                             <Icon size={16} className="text-accent" aria-hidden />
                           </div>
-                          <div className="min-w-0">
+                          <div className="min-w-0 flex-1">
                             <p className="font-display text-lg font-bold text-ink truncate">
                               {item.place}
                             </p>
                             <p className="font-mono text-[9px] font-semibold text-muted uppercase tracking-wider truncate">{item.event}</p>
                           </div>
+                          {item.link && (
+                            <a
+                              href={item.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="shrink-0 text-muted transition-colors hover:text-accent"
+                              aria-label={`View writeup for ${item.event}`}
+                            >
+                              <ArrowUpRight size={14} />
+                            </a>
+                          )}
                         </div>
                         {item.description && (
                           <p className="text-sm leading-relaxed text-ink/80 flex-1">
