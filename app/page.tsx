@@ -1,24 +1,28 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Hero from "@/components/sections/Hero";
+import Header from "@/components/sections/Header";
+import About from "@/components/sections/About";
+import Contact from "@/components/sections/Contact";
 import Projects from "@/components/sections/Projects";
 import OpenSource from "@/components/sections/OpenSource";
 import Experience from "@/components/sections/Experience";
-import OtherExperiences from "@/components/sections/OtherExperiences";
+import Skills from "@/components/sections/Skills";
 import EngineeringNotes from "@/components/sections/EngineeringNotes";
-import Achievements from "@/components/sections/Achievements";
+import GitHubActivity from "@/components/sections/GitHubActivity";
 
 export default function Home() {
   return (
     <main>
       <Navbar />
-      <Hero />
+      <Header />
+      <About />
+      <Contact />
       <Projects />
       <OpenSource />
       <Experience />
-      <OtherExperiences />
+      <Skills />
       <EngineeringNotes />
-      <Achievements />
+      <GitHubActivity />
       <Footer />
     </main>
   );

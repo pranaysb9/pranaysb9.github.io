@@ -29,12 +29,8 @@ export default function SpotlightCard({ children, className }: Props) {
   }
 
   return (
-    <div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      className={cn("spotlight-card", className)}
-    >
-      <div className="relative z-10">{children}</div>
+    <div ref={ref} onMouseMove={handleMouseMove} className="spotlight-card">
+      <div className={cn("relative z-10", className)}>{children}</div>
     </div>
   );
 }

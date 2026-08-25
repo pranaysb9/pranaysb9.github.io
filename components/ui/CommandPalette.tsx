@@ -9,7 +9,8 @@ import {
   GitBranch,
   Briefcase,
   Lightbulb,
-  Award,
+  UserRound,
+  Code2,
   Github,
   Linkedin,
   Mail,
@@ -58,11 +59,12 @@ export default function CommandPalette() {
   const commands: Command[] = useMemo(() => {
     const nav: Command[] = [
       { id: "nav-top", group: "Navigate", label: "Back to top", icon: ArrowRight, run: () => goTo("#top") },
+      { id: "nav-about", group: "Navigate", label: "About", icon: UserRound, run: () => goTo("#about") },
       { id: "nav-projects", group: "Navigate", label: "Projects", icon: FolderGit2, run: () => goTo("#projects") },
       { id: "nav-oss", group: "Navigate", label: "Open Source", icon: GitBranch, run: () => goTo("#open-source") },
       { id: "nav-exp", group: "Navigate", label: "Experience", icon: Briefcase, run: () => goTo("#experience") },
-      { id: "nav-notes", group: "Navigate", label: "Engineering Notes", icon: Lightbulb, run: () => goTo("#notes") },
-      { id: "nav-achievements", group: "Navigate", label: "Achievements", icon: Award, run: () => goTo("#achievements") },
+      { id: "nav-skills", group: "Navigate", label: "Skills", icon: Code2, run: () => goTo("#skills") },
+      { id: "nav-notes", group: "Navigate", label: "Notes", icon: Lightbulb, run: () => goTo("#notes") },
     ];
 
     const caseStudies: Command[] = projects

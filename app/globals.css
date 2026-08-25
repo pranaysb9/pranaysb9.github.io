@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 /* ============================================================================
-   NEUTRAL PALETTE — single fixed theme (no runtime switching).
-   Values are "R G B" triplets (no commas) so Tailwind's rgb(var(--x) / a)
-   opacity syntax works.
+   SIGNAL PALETTE — near-black ground, soft white ink, one terminal-green
+   accent. Values are "R G B" triplets (no commas) so Tailwind's
+   rgb(var(--x) / a) opacity syntax works.
    ============================================================================ */
 :root {
-  --c-paper: 250 249 246;
-  --c-surface: 255 255 255;
-  --c-surface-hover: 255 255 255;
-  --c-ink: 26 26 24;
-  --c-muted: 100 98 90;
-  --c-line: 232 230 222;
-  --c-accent: 37 99 235; /* Refined Midnight Indigo #2563EB */
-  --c-accent-dark: 29 78 216;
-  --c-accent-soft: 37 99 235 / 0.1;
+  --c-paper: 10 11 13;
+  --c-surface: 17 19 22;
+  --c-surface-hover: 24 26 30;
+  --c-ink: 236 237 234;
+  --c-muted: 142 146 143;
+  --c-line: 38 41 39;
+  --c-accent: 74 222 148; /* Signal Green */
+  --c-accent-dark: 34 175 110;
+  --c-accent-soft: 74 222 148 / 0.12;
 }
 
 html {
@@ -26,14 +26,13 @@ html {
 body {
   background-color: theme("colors.paper");
   color: theme("colors.ink");
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ---------- Focus visibility (accessibility floor) ---------- */
 :focus-visible {
   outline: 2px solid rgb(var(--c-accent));
-  outline-offset: 3px;
-  border-radius: 4px;
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 /* ---------- Reduced motion (accessibility floor) ---------- */
@@ -45,33 +44,6 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-/* ---------- Cursor-follow spotlight (Projects cards only) ---------- */
-.spotlight-card {
-  position: relative;
-  overflow: hidden;
-}
-
-.spotlight-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  opacity: 0;
-  transition: opacity 0.2s ease-out;
-  background: radial-gradient(
-    380px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    rgb(var(--c-accent) / 0.08),
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .spotlight-card:hover::before {
-    opacity: 1;
   }
 }
 
@@ -98,47 +70,63 @@ body {
   transform: scaleX(1);
 }
 
-/* ---------- Tabular numerals for stats/diffs ---------- */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Project Card Hover Effects ---------- */
-.project-card-group:hover .project-card-sibling {
-  opacity: 0.45;
-  filter: grayscale(20%);
+/* ---------- Horizontal scroll rail (no visible scrollbar) ---------- */
+.rail {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.project-card-sibling {
-  transition: opacity 0.25s ease-out, filter 0.25s ease-out, transform 0.25s ease-out, border-color 0.25s ease-out;
+.rail::-webkit-scrollbar {
+  display: none;
 }
 
-.project-card-sibling:hover {
-  opacity: 1 !important;
-  filter: none !important;
-  border-color: rgb(var(--c-accent)) !important;
+/* ---------- Cursor-follow spotlight (project cards) ---------- */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+  background: radial-gradient(
+    380px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgb(var(--c-accent) / 0.1),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .spotlight-card:hover::before {
+    opacity: 1;
+  }
 }
 
 /* ---------- Developer Mode (Blueprint Easter Egg) ---------- */
 .developer-mode {
-  --c-paper: 11 37 69; /* Blueprint dark blue */
+  --c-paper: 11 37 69;
   --c-surface: 15 48 88;
   --c-surface-hover: 20 60 108;
-  --c-ink: 230 240 250; /* Blueprint lines */
+  --c-ink: 230 240 250;
   --c-muted: 130 165 205;
-  --c-line: 32 80 128;
-  --c-accent: 56 189 248; /* Sky blue */
+  --c-line: 56 189 248;
+  --c-accent: 56 189 248;
 }
 
 .developer-mode body {
-  background-image: 
+  background-image:
     linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
-}
-
-.developer-mode * {
-  border-radius: 0px !important; /* Sharp engineering edges */
 }
 
 .developer-mode section {
@@ -170,4 +158,3 @@ body {
   pointer-events: none;
   z-index: 20;
 }
-

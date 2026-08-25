@@ -11,10 +11,12 @@ type Props = {
   onClick?: () => void;
   variant?: "solid" | "outline";
   className?: string;
+  target?: string;
+  rel?: string;
 };
 
 /**
- * A pill button with a subtle magnetic pull toward the cursor (max ~8px
+ * A button with a subtle magnetic pull toward the cursor (max ~8px
  * displacement) plus a press-down scale on click. Solid variant is the
  * primary CTA treatment — full accent fill, real visual weight.
  */
@@ -24,6 +26,8 @@ export default function MagneticButton({
   onClick,
   variant = "solid",
   className,
+  target,
+  rel,
 }: Props) {
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
@@ -39,16 +43,16 @@ export default function MagneticButton({
   }
 
   const styles = cn(
-    "inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-colors duration-200",
+    "inline-flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-[13px] font-semibold transition-colors duration-200",
     variant === "solid"
-      ? "bg-accent text-surface hover:bg-accent-dark"
-      : "border border-line text-ink hover:border-accent hover:text-accent",
+      ? "bg-accent text-paper hover:opacity-90"
+      : "border border-line text-ink hover:border-accent/50",
     className
   );
 
   const motionProps = {
     animate: pos,
-    whileTap: { scale: 0.97 },
+    whileTap: { scale: 0.96 },
     transition: { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.4 },
     onMouseMove: handleMouseMove,
     onMouseLeave: handleMouseLeave,
@@ -57,7 +61,7 @@ export default function MagneticButton({
 
   if (href) {
     return (
-      <motion.a href={href} {...motionProps}>
+      <motion.a href={href} target={target} rel={rel} {...motionProps}>
         {children}
       </motion.a>
     );

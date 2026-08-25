@@ -1,30 +1,33 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Sora, Fira_Code } from "next/font/google";
 import CommandPalette from "@/components/ui/CommandPalette";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import CursorFollower from "@/components/ui/CursorFollower";
+import KonamiEgg from "@/components/ui/KonamiEgg";
 import { profile } from "@/data/content";
 import "./globals.css";
 
-// Display serif — used for headlines only, with restraint. Fraunces has a
-// genuinely dramatic italic cut, which is what powers the split-headline
-// technique (regular weight + accent-colored italic emphasis).
-const fraunces = Fraunces({
+// One clean grotesque carries headings and body alike — no separate
+// display serif this time. Sora's slightly rounded terminals read as
+// approachable rather than corporate, which suits a dense "dossier" page.
+const sora = Sora({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
-// Body sans — carries nav, body copy, labels.
-const inter = Inter({
+// Reused as the body font too, via the same variable — keeps the whole
+// page to a genuine two-font system (grotesque + mono).
+const soraBody = Sora({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-// Utility mono — stack tags, stats, PR data, code-flavored details.
-const plexMono = IBM_Plex_Mono({
+// Status tags, stack pills, PR/commit-style details.
+const firaCode = Fira_Code({
   subsets: ["latin"],
   variable: "--font-mono",
   weight: ["400", "500", "600"],
@@ -42,10 +45,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}>
+    <html lang="en" className={`${sora.variable} ${soraBody.variable} ${firaCode.variable}`}>
       <body className="font-sans antialiased">
+        <ScrollProgress />
+        <CursorFollower />
         {children}
         <CommandPalette />
+        <KonamiEgg />
       </body>
     </html>
   );
