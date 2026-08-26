@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/sections/Header";
+import OrgMarquee from "@/components/ui/OrgMarquee";
 import About from "@/components/sections/About";
 import Contact from "@/components/sections/Contact";
 import Projects from "@/components/sections/Projects";
@@ -15,6 +16,7 @@ export default function Home() {
     <main>
       <Navbar />
       <Header />
+      <OrgMarquee />
       <About />
       <Contact />
       <Projects />

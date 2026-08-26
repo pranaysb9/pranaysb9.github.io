@@ -17,6 +17,28 @@
   --c-accent: 74 222 148; /* Signal Green */
   --c-accent-dark: 34 175 110;
   --c-accent-soft: 74 222 148 / 0.12;
+
+  --dot-grid-rgb: 236 237 234;
+  --gh-chart-filter: invert(1) hue-rotate(180deg);
+}
+
+/* ---------- Light mode — same dossier structure, paper flips to warm
+   off-white. Accent shifts to a deeper emerald since the signal-green used
+   on dark backgrounds fails contrast as text on white. Opt-in only (via
+   ThemeToggle, toggling this class on <html>) — dark stays the default. */
+:root.light {
+  --c-paper: 250 250 248;
+  --c-surface: 243 244 241;
+  --c-surface-hover: 234 236 231;
+  --c-ink: 24 26 24;
+  --c-muted: 100 104 99;
+  --c-line: 221 223 217;
+  --c-accent: 21 128 82;
+  --c-accent-dark: 6 95 70;
+  --c-accent-soft: 21 128 82 / 0.1;
+
+  --dot-grid-rgb: 24 26 24;
+  --gh-chart-filter: none;
 }
 
 html {
@@ -25,7 +47,10 @@ html {
 
 body {
   background-color: theme("colors.paper");
+  background-image: radial-gradient(rgb(var(--dot-grid-rgb) / 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
   color: theme("colors.ink");
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* ---------- Focus visibility (accessibility floor) ---------- */
@@ -111,8 +136,11 @@ body {
   }
 }
 
-/* ---------- Developer Mode (Blueprint Easter Egg) ---------- */
-.developer-mode {
+/* ---------- Developer Mode (Blueprint Easter Egg) ----------
+   Selector is :root.developer-mode (not plain .developer-mode) so its
+   specificity matches :root.light and, being declared later, still wins
+   when both are toggled at once. */
+:root.developer-mode {
   --c-paper: 11 37 69;
   --c-surface: 15 48 88;
   --c-surface-hover: 20 60 108;
@@ -120,6 +148,8 @@ body {
   --c-muted: 130 165 205;
   --c-line: 56 189 248;
   --c-accent: 56 189 248;
+  --dot-grid-rgb: 255 255 255;
+  --gh-chart-filter: invert(1) hue-rotate(180deg);
 }
 
 .developer-mode body {

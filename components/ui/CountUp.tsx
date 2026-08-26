@@ -22,6 +22,10 @@ export default function CountUp({ value, prefix = "", suffix = "", className }: 
 
   useEffect(() => {
     if (!inView) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplay(value);
+      return;
+    }
     const duration = Math.min(900, 300 + value * 2);
     const start = performance.now();
 

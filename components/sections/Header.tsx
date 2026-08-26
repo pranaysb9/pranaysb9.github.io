@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef } from "react";
-import type { MouseEvent } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { profile } from "@/data/content";
 import MagneticButton from "@/components/ui/MagneticButton";
+import AuroraGlow from "@/components/ui/AuroraGlow";
+import BorderBeam from "@/components/ui/BorderBeam";
 
 const NODES = [
   { x: 40, y: 40 }, { x: 140, y: 20 }, { x: 220, y: 90 },
@@ -18,8 +18,8 @@ const EDGES: [number, number][] = [
 
 // A small hand-drawn constellation — nodes and edges standing in for the
 // multi-agent / vision-graph systems the copy talks about. Draws itself in
-// on mount, nodes pulse gently, and the whole thing tilts toward the
-// cursor — decorative, but alive rather than static.
+// once on mount and its nodes pulse gently — decorative, but alive rather
+// than static, without needing to track the cursor.
 function Constellation() {
   return (
     <svg viewBox="0 0 300 240" className="h-full w-full overflow-visible" aria-hidden>
@@ -80,40 +80,16 @@ function AnimatedWords({ text, className }: { text: string; className?: string }
 }
 
 export default function Header() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const springX = useSpring(mx, { stiffness: 80, damping: 20 });
-  const springY = useSpring(my, { stiffness: 80, damping: 20 });
-  const rotateX = useTransform(springY, [-1, 1], [6, -6]);
-  const rotateY = useTransform(springX, [-1, 1], [-6, 6]);
-
-  function handleMouseMove(e: MouseEvent<HTMLElement>) {
-    const rect = sectionRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mx.set(((e.clientX - rect.left) / rect.width) * 2 - 1);
-    my.set(((e.clientY - rect.top) / rect.height) * 2 - 1);
-  }
-
-  function handleMouseLeave() {
-    mx.set(0);
-    my.set(0);
-  }
-
   return (
     <section
       id="top"
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       className="relative overflow-hidden border-b border-line px-6 py-20 md:px-12 md:py-28"
     >
-      <motion.div
-        style={{ rotateX, rotateY }}
-        className="pointer-events-none absolute -right-10 top-10 h-64 w-72 opacity-70 [transform-style:preserve-3d] md:right-0 md:top-16"
-      >
+      <AuroraGlow />
+
+      <div className="pointer-events-none absolute -right-10 top-10 h-64 w-72 opacity-70 md:right-0 md:top-16">
         <Constellation />
-      </motion.div>
+      </div>
 
       <div className="relative mx-auto max-w-3xl">
         <motion.div
@@ -158,9 +134,18 @@ export default function Header() {
           <MagneticButton href="#projects">
             View projects <ArrowUpRight size={14} />
           </MagneticButton>
-          <MagneticButton href={profile.socials.resume} variant="outline" target="_blank" rel="noopener noreferrer">
-            Résumé
-          </MagneticButton>
+          <div className="relative inline-block w-fit rounded-lg">
+            <BorderBeam />
+            <MagneticButton
+              href={profile.socials.resume}
+              variant="outline"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative z-10"
+            >
+              Résumé
+            </MagneticButton>
+          </div>
         </motion.div>
       </div>
     </section>

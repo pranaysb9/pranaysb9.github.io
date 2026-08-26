@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import { GitPullRequest } from "lucide-react";
-import { openSource } from "@/data/content";
-import CountUp from "@/components/ui/CountUp";
+import { openSource, ossIssuesTriaged } from "@/data/content";
 import OrgLogo, { getOrgDisplayName } from "@/components/ui/OrgLogo";
 import SpotlightCard from "@/components/ui/SpotlightCard";
-import RevealOnScroll from "@/components/ui/RevealOnScroll";
 
 export default function OpenSource() {
   const [showAll, setShowAll] = useState(false);
@@ -14,20 +12,20 @@ export default function OpenSource() {
   return (
     <section id="open-source" className="scroll-mt-16 border-t border-line px-6 py-16 md:px-12">
       <div className="mx-auto max-w-3xl">
-        <RevealOnScroll>
-          <h2 className="text-[11px] font-semibold uppercase tracking-widest text-muted">Open Source</h2>
-          <p className="mt-2 max-w-lg text-sm text-muted">
-            Merged fixes in widely-used production frameworks — optimizing runtimes, correcting memory leaks,
-            and closing reliability gaps.
-          </p>
-        </RevealOnScroll>
+        <h2 className="text-[11px] font-semibold uppercase tracking-widest text-muted">Open Source</h2>
+        <p className="mt-2 max-w-lg text-sm text-muted">
+          Merged fixes in widely-used production frameworks — optimizing runtimes, correcting memory leaks,
+          and closing reliability gaps.
+        </p>
+        <p className="mt-2 font-mono text-[12px] text-muted">
+          <span className="text-emerald-400">{openSource.length} merged</span> · {ossIssuesTriaged} issues triaged · 6 repositories
+        </p>
 
         <div className="mt-6 divide-y divide-line rounded-xl2 border border-line bg-surface">
-          {openSource.slice(0, showAll ? undefined : 4).map((contribution, i) => {
+          {openSource.slice(0, showAll ? undefined : 4).map((contribution) => {
             const [org, repoName] = contribution.repo.split("/");
             return (
-              <RevealOnScroll key={contribution.id} delay={Math.min(i, 4) * 0.04}>
-              <SpotlightCard className="p-5 transition-colors hover:bg-surface-hover">
+              <SpotlightCard key={contribution.id} className="p-5 transition-colors hover:bg-surface-hover">
                 <div className="flex items-center gap-2.5">
                   <OrgLogo org={org} size={20} className="shrink-0" />
                   <a
@@ -51,12 +49,8 @@ export default function OpenSource() {
                   <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-emerald-400">
                     {contribution.status}
                   </span>
-                  <span className="text-emerald-400">
-                    +<CountUp value={contribution.linesAdded} />
-                  </span>
-                  <span className="text-muted">
-                    &minus;<CountUp value={contribution.linesRemoved} />
-                  </span>
+                  <span className="text-emerald-400">+{contribution.linesAdded}</span>
+                  <span className="text-muted">&minus;{contribution.linesRemoved}</span>
                   <a
                     href={contribution.sourceUrl}
                     target="_blank"
@@ -67,7 +61,6 @@ export default function OpenSource() {
                   </a>
                 </div>
               </SpotlightCard>
-              </RevealOnScroll>
             );
           })}
         </div>

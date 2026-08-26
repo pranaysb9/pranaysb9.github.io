@@ -63,9 +63,12 @@ const ORG_LOGOS: Record<string, (props: MarkProps) => JSX.Element> = {
 };
 
 // Orgs with no vector mark in any open icon library — real logo image
-// fetched from the org's own public LinkedIn page, hosted locally.
+// fetched from the org's own public LinkedIn page or GitHub org avatar
+// (their own chosen branding image), hosted locally.
 const ORG_IMAGES: Record<string, string> = {
   voxel51: "/logos/voxel51.jpeg",
+  kornia: "/logos/kornia.png",
+  "embeddings-benchmark": "/logos/mteb.png",
 };
 
 const ORG_DISPLAY_NAMES: Record<string, string> = {
@@ -74,6 +77,8 @@ const ORG_DISPLAY_NAMES: Record<string, string> = {
   "open-telemetry": "OpenTelemetry",
   google: "Google",
   voxel51: "Voxel51",
+  kornia: "Kornia",
+  "embeddings-benchmark": "MTEB",
 };
 
 export function getOrgDisplayName(org: string) {

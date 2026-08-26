@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Search } from "lucide-react";
 import { profile } from "@/data/content";
+import ScrambleText from "@/components/ui/ScrambleText";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -74,7 +76,7 @@ export default function Navbar() {
                     isActive ? "text-accent" : "text-muted hover:text-ink"
                   )}
                 >
-                  {item.label}
+                  <ScrambleText text={item.label} />
                   {isActive && (
                     <motion.span
                       layoutId="nav-active-underline"
@@ -88,6 +90,7 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <button
               onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
               aria-label="Open quick search"

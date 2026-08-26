@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Sora, Fira_Code } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import CommandPalette from "@/components/ui/CommandPalette";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import CursorFollower from "@/components/ui/CursorFollower";
+import PixelRover from "@/components/ui/PixelRover";
 import KonamiEgg from "@/components/ui/KonamiEgg";
+import IntroSequence from "@/components/ui/IntroSequence";
 import { profile } from "@/data/content";
 import "./globals.css";
 
@@ -46,12 +49,26 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${sora.variable} ${soraBody.variable} ${firaCode.variable}`}>
+      <head>
+        {/* Blocking, runs before first paint — applies a stored light-mode
+            choice immediately so there's no flash of the dark default. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light')}}catch(e){}",
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">
-        <ScrollProgress />
-        <CursorFollower />
-        {children}
-        <CommandPalette />
-        <KonamiEgg />
+        <MotionConfig reducedMotion="user">
+          <IntroSequence />
+          <ScrollProgress />
+          <CursorFollower />
+          <PixelRover />
+          {children}
+          <CommandPalette />
+          <KonamiEgg />
+        </MotionConfig>
       </body>
     </html>
   );

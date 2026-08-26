@@ -1,6 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
 import { profile } from "@/data/content";
-import RevealOnScroll from "@/components/ui/RevealOnScroll";
 
 // Real, live contribution data for the linked GitHub account — not a static
 // image or fabricated number. ghchart.rshah.org renders a public,
@@ -24,16 +23,16 @@ export default function GitHubActivity() {
           </a>
         </div>
 
-        <RevealOnScroll delay={0.1}>
-          <div className="mt-5 overflow-x-auto rounded-xl2 border border-line bg-white p-5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={CHART_URL}
-              alt={`${GITHUB_USERNAME}'s GitHub contribution graph`}
-              className="min-w-[640px]"
-            />
-          </div>
-        </RevealOnScroll>
+        <div className="mt-5 overflow-x-auto rounded-xl2 border border-line bg-surface p-5">
+          <p className="mb-3 font-mono text-[11px] text-muted">$ git contributions --last-year</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={CHART_URL}
+            alt={`${GITHUB_USERNAME}'s GitHub contribution graph`}
+            className="min-w-[640px]"
+            style={{ filter: "var(--gh-chart-filter)" }}
+          />
+        </div>
       </div>
     </section>
   );

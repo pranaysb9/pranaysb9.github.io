@@ -20,8 +20,10 @@ export default function CursorFollower() {
 
   useEffect(() => {
     const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    setEnabled(isFinePointer);
-    if (!isFinePointer) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isEnabled = isFinePointer && !reducedMotion;
+    setEnabled(isEnabled);
+    if (!isEnabled) return;
 
     const onMove = (e: MouseEvent) => {
       x.set(e.clientX);

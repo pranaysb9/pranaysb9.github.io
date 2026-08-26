@@ -100,13 +100,20 @@ export default function Experience() {
           <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-muted">
             Recognition
           </p>
-          <div className="mt-3 space-y-3">
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {recognition.map((item) => (
-              <div key={item.place + item.event} className="flex items-start justify-between gap-3 text-sm">
-                <div>
-                  <span className="font-semibold text-ink">{item.place}</span>
-                  <span className="text-muted"> — {item.event}</span>
-                  {item.description && <p className="mt-0.5 text-xs text-muted">{item.description}</p>}
+              <div
+                key={item.place + item.event}
+                className="flex items-start gap-3 rounded-lg border border-line bg-surface p-3"
+              >
+                <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-accent/30 bg-accent/10">
+                  <Trophy size={12} className="text-accent" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-ink">
+                    {item.place} <span className="font-normal text-muted">— {item.event}</span>
+                  </p>
+                  {item.description && <p className="mt-1 text-xs leading-relaxed text-ink/65">{item.description}</p>}
                 </div>
                 {item.link && (
                   <a
